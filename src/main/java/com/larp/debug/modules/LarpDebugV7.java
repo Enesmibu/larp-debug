@@ -7,9 +7,10 @@ import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
+import net.minecraft.block.BeehiveBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.chunk.WorldChunk;
@@ -89,8 +90,9 @@ public class LarpDebugV7 extends Module {
                 final ChunkPos chunkPos = new ChunkPos(cx, cz);
 
                 for (var entry : chunk.getBlockEntities().entrySet()) {
-                    if (entry.getValue() instanceof BeehiveBlockEntity beehive) {
-                        if (isBeehiveFull(beehive)) {
+                    if (entry.getValue() instanceof BeehiveBlockEntity) {
+                        BlockState state = world.getBlockState(entry.getKey());
+                        if (state.contains(BeehiveBlock.HONEY_LEVEL) && state.get(BeehiveBlock.HONEY_LEVEL) >= 5) {
                             markedChunks.add(chunkPos);
                             break;
                         }
@@ -102,10 +104,6 @@ public class LarpDebugV7 extends Module {
         for (ChunkPos chunkPos : markedChunks) {
             renderChunk(event, chunkPos);
         }
-    }
-
-    private boolean isBeehiveFull(BeehiveBlockEntity beehive) {
-        return beehive.getBeeCount() >= 3;
     }
 
     private void renderChunk(Render3DEvent event, ChunkPos chunkPos) {
