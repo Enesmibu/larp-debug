@@ -86,14 +86,16 @@ public class LarpDebugV7 extends Module {
                 if (!world.isChunkLoaded(cx, cz)) continue;
 
                 WorldChunk chunk = world.getChunk(cx, cz);
+                final ChunkPos chunkPos = new ChunkPos(cx, cz);
 
-                chunk.getBlockEntities().forEach((pos, blockEntity) -> {
-                    if (blockEntity instanceof BeehiveBlockEntity beehive) {
+                for (var entry : chunk.getBlockEntities().entrySet()) {
+                    if (entry.getValue() instanceof BeehiveBlockEntity beehive) {
                         if (isBeehiveFull(beehive)) {
-                            markedChunks.add(new ChunkPos(cx, cz));
+                            markedChunks.add(chunkPos);
+                            break;
                         }
                     }
-                });
+                }
             }
         }
 
