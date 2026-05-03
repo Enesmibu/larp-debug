@@ -22,8 +22,6 @@ repositories {
 }
 
 loom {
-    splitEnvironmentSourceSets()
-
     mods {
         'larp-debug' {
             sourceSet sourceSets.main
@@ -60,7 +58,5 @@ java {
 }
 
 jar {
-    from('LICENSE') {
-        rename { "${it}_${project.base.archivesName.get()}" }
-    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
