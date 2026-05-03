@@ -10,6 +10,21 @@ die () {
     exit 1
 } >&2
 
+# Resolve APP_HOME
+app_path=$0
+while [ -h "$app_path" ] ; do
+    ls=$( ls -ld "$app_path" )
+    link=$( expr "$ls" : '.*-> \(.*\)$' )
+    if expr "$link" : '/.*' > /dev/null; then
+        app_path="$link"
+    else
+        app_path=$( dirname "$app_path" )"/$link"
+    fi
+done
+APP_HOME=$( cd "$( dirname "$app_path" )" && pwd -P )
+APP_BASE_NAME=$( basename "$0" )
+DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
+
 # OS specific support (must be 'true' or 'false').
 cygwin=false
 msys=false
