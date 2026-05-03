@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "larp-debug",
+  "version": "${version}",
+  "name": "Larp Debug",
+  "description": "Meteor Client addon that highlights chunks with fully filled bee nests.",
+  "authors": ["Larp"],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/larp-debug/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "meteor": [
+      "com.larp.debug.LarpDebug"
+    ]
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "minecraft": "~1.21.4",
+    "meteor-client": "*"
+  }
+}
